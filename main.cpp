@@ -168,12 +168,12 @@ void calculate_by_formula(const vector<vector<int>> *a, const vector<vector<int>
     divide_by_2(result2);
 }
 
-void print_to_file(fstream *matrices, string multiplicationName, const vector<vector<int>> *res1, const vector<vector<int>> *res2)
+void print_to_file(fstream *matrices, string pairHeader, const vector<vector<int>> *res1, const vector<vector<int>> *res2)
 {
     (*matrices).clear();
     (*matrices).seekp(0, ios::end);
 
-    (*matrices) << multiplicationName << "\n{" << endl;
+    (*matrices) << pairHeader << "\n{" << endl;
 
     for (int i = 0; i < N; i++)
     {
