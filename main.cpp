@@ -247,7 +247,7 @@ void search_for_duplicate(string pairHeader, fstream *matrices, ofstream *knownD
         надо придумать
     */
 
-    string line, comparedPairHeader;
+    string comparedPairHeader;
     vector<vector<int>> comparedM1(N, vector<int>(N));
     vector<vector<int>> comparedM2(N, vector<int>(N));
     bool isDuplicate;
