@@ -220,7 +220,7 @@ void read_pair(fstream *matrices, vector<vector<int>> *readTo1, vector<vector<in
     getline((*matrices), line); // считать пустую строку
 }
 
-void search_for_duplicate(string pairHeader, fstream *matrices, ofstream *knownDuplicates, const vector<vector<int>> *res1, const vector<vector<int>> *res2)
+bool search_for_duplicate(string pairHeader, fstream *matrices, ofstream *knownDuplicates, const vector<vector<int>> *res1, const vector<vector<int>> *res2)
 {
     /*
                 Идея для оптимизации
@@ -255,7 +255,7 @@ void search_for_duplicate(string pairHeader, fstream *matrices, ofstream *knownD
     (*matrices).clear();
     (*matrices).seekg(0, ios::beg);
 
-    while (getline((*matrices), comparedPairHeader) && comparedPairHeader != pairHeader)
+    while (getline((*matrices), comparedPairHeader))
     {
         isDuplicate = true;
 
@@ -285,6 +285,8 @@ void search_for_duplicate(string pairHeader, fstream *matrices, ofstream *knownD
             break;
         }
     }
+
+    return isDuplicate;
 }
 
 void operate_on_length_two(fstream *matrices, ofstream *knownDuplicates)
