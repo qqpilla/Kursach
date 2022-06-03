@@ -307,8 +307,7 @@ void operate_on_length_two(fstream *matrices, ofstream *knownDuplicates)
             f = FG[j].first;
             g = FG[j].second;
 
-            pairHeader = "A" + to_string(i + 1) + ", B" + to_string(i + 1) +
-                         "  x  F" + to_string(j + 1) + ", G" + to_string(j + 1) + " :";
+            pairHeader = to_string(i + 1) + to_string(j + 1)  + " :";
 
             calculate_by_formula(&a, &b, &f, &g, &res1, &res2);
             print_to_file(matrices, pairHeader, &res1, &res2);
@@ -336,7 +335,7 @@ int main()
     vector<vector<int>> m2(N, vector<int>(N));
     vector<vector<int>> res1, res2;
 
-    for (int l = 2; l <= 5; l++)
+    for (int l = 2; l <= 3; l++)
     {
         if (l == 2)
         {
@@ -348,13 +347,11 @@ int main()
             {
                 //указатель на AB
                 basicMultiplier = &AB;
-                basicMultiplierHeader = "  x  A, B :";
             }
             else
             {
                 //указатель на FG
                 basicMultiplier = &FG;
-                basicMultiplierHeader = "  x  F, G :";
             }
 
             //матрицы начинают считываться с readBegin
@@ -378,9 +375,7 @@ int main()
                     calculate_by_formula(&m1, &m2, &((*basicMultiplier)[i].first),
                                          &((*basicMultiplier)[i].second), &res1, &res2);
 
-                    currentMultiplierHeader = basicMultiplierHeader;
-                    currentMultiplierHeader.insert(6, to_string(i + 1));
-                    currentMultiplierHeader.insert(10, to_string(i + 1));
+                    currentMultiplierHeader = to_string(i + 1) + " :";
 
                     print_to_file(&matrices, pairName + currentMultiplierHeader, &res1, &res2);
                     search_for_duplicate(pairName + currentMultiplierHeader, &matrices, &knownDuplicates, &res1, &res2);
