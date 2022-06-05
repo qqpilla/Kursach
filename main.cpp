@@ -220,28 +220,22 @@ void read_pair(fstream *matrices, vector<vector<int>> *readTo1, vector<vector<in
     getline((*matrices), line); // считать пустую строку
 }
 
-bool search_for_duplicate(string pairHeader, fstream *matrices, ofstream *knownDuplicates, const vector<vector<int>> *res1, const vector<vector<int>> *res2)
+void search_for_duplicate(string pairHeader, fstream *matrices, ofstream *knownDuplicates, const vector<vector<int>> *res1, const vector<vector<int>> *res2)
 {
     /*
                 Идея для оптимизации
-
         для каждой пары матриц сначала искать самое длинное число, которое в неё входит
         (по модулю, наверное (тогда можно просто искать самое большое число, а потом взять его длину))
         (делать это удобнее в функции divide_by_two, чтоб не делать лишний пробег по обеим матрицам)
-
         содать какой-нибудь глобальный словарь (вроде это map), ключами которого являются длины чисел
         (1, 2, 3, 4, ...), а значениями ссылки на строки в matrices, начиная с которых
         появляются числа соответствующей длины
-
         тогда если у пары максимальное число длины t, то искать совпадения нужно начиная с той строки,
         с которой появляются числа длины t и до той строки, в которой появляются числа длины t+1
         (или до конца файла, если t - максимальная длина)
-
         чисел длины t+1 в паре матриц быть не может (т.к. тогда длина её самого длинного числа была бы t+1, а не t),
         а значит нет смысла смотреть те пары, в которых такие числа есть
         по обратному принципу отпадает необходимость проверять пары, максимальная длина числа в которых < t
-
-
         когда записываешь новую пару матриц в файл, максимальная длина числа может быть меньше, чем у предыдущей пары
         тогда надо сохранять ещё одну ссылку на максимальную длину или что? непонятно пока, что с этим делать
         надо придумать
@@ -255,7 +249,7 @@ bool search_for_duplicate(string pairHeader, fstream *matrices, ofstream *knownD
     (*matrices).clear();
     (*matrices).seekg(0, ios::beg);
 
-    while (getline((*matrices), comparedPairHeader))
+    while (getline((*matrices), comparedPairHeader) && comparedPairHeader != pairHeader)
     {
         isDuplicate = true;
 
@@ -285,8 +279,6 @@ bool search_for_duplicate(string pairHeader, fstream *matrices, ofstream *knownD
             break;
         }
     }
-
-    return isDuplicate;
 }
 
 void operate_on_length_two(fstream *matrices, ofstream *knownDuplicates)
@@ -337,7 +329,7 @@ int main()
     vector<vector<int>> m2(N, vector<int>(N));
     vector<vector<int>> res1, res2;
 
-    for (int l = 2; l <= 3; l++)
+    for (int l = 2; l <= 5; l++)
     {
         if (l == 2)
         {
